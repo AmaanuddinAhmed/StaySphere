@@ -91,10 +91,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// // Root route
-// app.get("/", (req, res) => {
-//   res.send("StaySphere website working!");
-// });
+// Root route
+app.get("/", (req, res) => {
+  res.render("landing.ejs");
+});
 
 // Using Express routes
 app.use("/listings", listingRouter);
