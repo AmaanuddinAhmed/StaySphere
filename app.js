@@ -10,6 +10,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const User = require("./models/user.js");
 const passport = require("passport");
@@ -41,9 +42,23 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
 
+// Store setup
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+  console.log("ERROR in MONGO STORE", err);
+});
+
 // Session setup
 const sessionOptions = {
-  secret: "supersecretcode",
+  store, // same as store: store
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
