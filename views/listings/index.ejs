@@ -3,7 +3,10 @@
 <style>
   .filters {
     display: flex;
+    flex-wrap: wrap;          /* ← add this */
     justify-content: space-around;
+    align-items: center;      /* ← add this so tax-toggle aligns nicely */
+    gap: 0.5rem 0;            /* ← small vertical breathing room when wrapped */
   }
 
   .filter {
@@ -19,6 +22,13 @@
 
   .filter p {
     font-size: 0.9rem;
+  } 
+
+  @media (max-width: 600px) {
+    .tax-toggle {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
   }
 
   .tax-toggle {
